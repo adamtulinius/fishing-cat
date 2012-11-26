@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>BigScreen-web</title>
+    <link rel="stylesheet" href="css/default.css">
+</head>
+<body>
+    <div id="main">
+        <div id="messages"></div>
+    </div>
+    <div id="ticker">
+        <div class="content"></div>
+    </div>
+    <!--<script src="js/jquery-1.8.3.min.js"></script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script>
+        var lunchTime = false;
+        var timePerPage = 30;
+        var lastChange = null;
+
+        function rotate(millis) {
+            lastChange = millis;
+        }
+
+        function handleTime(msg) {
+            var milliseconds = msg.content;
+            var date = new Date(milliseconds);
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            lunchTime = (hours == 11 && minutes >= 30);
+
+            if (lastChange != null && lastChange + timePerPage*1000 > milliseconds) {
+                rotate();
+            }
+
+            document.getElementById('messages').innerHTML += "<div>" + msg.uuid + ": lunchTime="  + lunchTime + "</div>";
+        }
+
+        function addToTicker(envelope) {
+            switch(envelope.type) {
+                case "quote":
+                    var content = '<b>Quote:</b> "' + envelope.message.content + '" - ' + envelope.message.author;
+                    $("#ticker > .content").fadeOut(250);
+                    $("#ticker > .content").html(content);
+                    $("#ticker > .content").fadeIn(500);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function showMessage(msg) {
+            document.getElementById('messages').innerHTML += "<div>" + msg.uuid + ": "  + msg.content + "</div>";
+        }
+
+        function fallback(msg) {
+            document.getElementById('messages').innerHTML += "<div>" + msg + "</div>";
+        }
+
+        $(document).ready(function() {
+            var ws = new WebSocket('ws://' + document.location.host + '/ws');
+            //showMessage('Connecting...');
+            ws.onopen = function() {
+                ws.send(JSON.stringify({"channel":"quotes", "subscribe": true}));
+                ws.send(JSON.stringify({"channel":"time", "subscribe": true}));
+            };
+            //ws.onclose = function() { fallback('Lost connection'); };
+            ws.onmessage = function(msg) {
+                var json = JSON.parse(msg.data);
+                switch (json.type) {
+                    case "quote":
+                        addToTicker(json);
+                        break;
+                    case "time":
+                        handleTime(json.message);
+                        break;
+                    case "x":
+                        showMessage(json.message);
+                        break;
+                    default:
+                        fallback(msg);
+                }
+            };
+        });
+    </script>
+</body>
+</html>
