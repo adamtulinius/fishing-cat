@@ -48,8 +48,7 @@ public abstract class GenericMessage<T> {
     }
 
     public boolean expired() {
-        if (expiresAt == null) return false;
-        else return new Date().compareTo(expiresAt) > 0;
+        return expiresAt != null && new Date().compareTo(expiresAt) > 0;
     }
 
     public abstract String getType();

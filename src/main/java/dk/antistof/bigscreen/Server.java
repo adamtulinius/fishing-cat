@@ -1,6 +1,5 @@
 package dk.antistof.bigscreen;
 
-import dk.antistof.bigscreen.channels.Channel;
 import dk.antistof.bigscreen.channels.QuoteChannel;
 import dk.antistof.bigscreen.channels.TimeChannel;
 import dk.antistof.bigscreen.handlers.ApiHandler;
@@ -13,9 +12,9 @@ import java.util.concurrent.ExecutionException;
 
 public class Server {
     public static void main(String... args) throws ExecutionException, InterruptedException {
-        TimeChannel timeChannel = new TimeChannel();
+        TimeChannel timeChannel = new TimeChannel(5000);
         Thread timeChannelThread = new Thread(timeChannel);
-        //timeChannelThread.start();
+        timeChannelThread.start();
 
         WebServer server = WebServers.createWebServer(8080);
         DistributionChannel distributionChannel = new DistributionChannel();

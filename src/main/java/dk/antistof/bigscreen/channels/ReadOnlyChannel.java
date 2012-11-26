@@ -5,6 +5,7 @@ import dk.antistof.bigscreen.messages.GenericMessage;
 import dk.antistof.bigscreen.messages.MessageEnvelope;
 import org.webbitserver.WebSocketConnection;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

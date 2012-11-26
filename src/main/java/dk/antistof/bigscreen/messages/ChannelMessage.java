@@ -1,5 +1,6 @@
 package dk.antistof.bigscreen.messages;
 
+@SuppressWarnings("FieldCanBeLocal")
 public class ChannelMessage {
     private String channel;
     private GenericMessage<String> message;

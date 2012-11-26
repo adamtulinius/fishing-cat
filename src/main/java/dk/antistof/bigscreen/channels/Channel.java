@@ -5,15 +5,8 @@ import org.webbitserver.HttpControl;
 import org.webbitserver.HttpHandler;
 import org.webbitserver.HttpRequest;
 import org.webbitserver.HttpResponse;
-import org.webbitserver.WebSocketConnection;
-
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public abstract class Channel<T extends GenericMessage> extends ReadOnlyChannel<T> implements HttpHandler {
-    private transient List<WebSocketConnection> clients;
-    private transient Map<UUID, T> messages;
 
     public Channel() {
         super();
