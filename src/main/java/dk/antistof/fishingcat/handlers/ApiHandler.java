@@ -1,4 +1,4 @@
-package dk.antistof.bigscreen.handlers;
+package dk.antistof.fishingcat.handlers;
 
 import org.webbitserver.HttpControl;
 import org.webbitserver.HttpHandler;

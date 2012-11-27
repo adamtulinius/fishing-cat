@@ -1,4 +1,8 @@
-package dk.antistof.bigscreen.messages;
+package dk.antistof.fishingcat.messages;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 import java.util.UUID;
 
@@ -24,5 +28,12 @@ public class Quote extends GenericMessage<String> {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public JsonElement toJson() {
+        JsonObject jsonObject = super.toJson().getAsJsonObject();
+        if (author != null) jsonObject.add("author", new JsonPrimitive(author));
+
+        return jsonObject;
     }
 }

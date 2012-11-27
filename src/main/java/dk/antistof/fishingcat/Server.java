@@ -1,9 +1,9 @@
-package dk.antistof.bigscreen;
+package dk.antistof.fishingcat;
 
-import dk.antistof.bigscreen.channels.QuoteChannel;
-import dk.antistof.bigscreen.channels.TimeChannel;
-import dk.antistof.bigscreen.handlers.ApiHandler;
-import dk.antistof.bigscreen.handlers.DistributionChannel;
+import dk.antistof.fishingcat.channels.QuoteChannel;
+import dk.antistof.fishingcat.channels.TimeChannel;
+import dk.antistof.fishingcat.handlers.ApiHandler;
+import dk.antistof.fishingcat.handlers.DistributionChannel;
 import org.webbitserver.WebServer;
 import org.webbitserver.WebServers;
 import org.webbitserver.handler.StaticFileHandler;
@@ -13,12 +13,14 @@ import java.util.concurrent.ExecutionException;
 public class Server {
     public static void main(String... args) throws ExecutionException, InterruptedException {
         TimeChannel timeChannel = new TimeChannel(5000);
-        Thread timeChannelThread = new Thread(timeChannel);
-        timeChannelThread.start();
+        new Thread(timeChannel).start();
 
         WebServer server = WebServers.createWebServer(8080);
         DistributionChannel distributionChannel = new DistributionChannel();
+
         QuoteChannel quoteChannel = new QuoteChannel();
+        new Thread(quoteChannel).start();
+
         distributionChannel.addChannel(timeChannel);
         distributionChannel.addChannel(quoteChannel);
         server.add("/channels/quotes", quoteChannel);

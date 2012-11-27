@@ -1,9 +1,10 @@
-package dk.antistof.bigscreen.messages;
+package dk.antistof.fishingcat.messages;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.UUID;
 
 public class Time extends GenericMessage<Long> {
-    private long time;
 
     public Time(long content) {
         super(content);
@@ -16,13 +17,5 @@ public class Time extends GenericMessage<Long> {
     @Override
     public String getType() {
         return "time";
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
     }
 }

@@ -1,11 +1,14 @@
-package dk.antistof.bigscreen.channels;
+package dk.antistof.fishingcat.channels;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
-import dk.antistof.bigscreen.messages.GenericMessage;
-import dk.antistof.bigscreen.messages.MessageEnvelope;
+import dk.antistof.fishingcat.GsonSingleton;
+import dk.antistof.fishingcat.ObjectMapperSingleton;
+import dk.antistof.fishingcat.messages.GenericMessage;
+import dk.antistof.fishingcat.messages.MessageEnvelope;
 import org.webbitserver.WebSocketConnection;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,18 +35,22 @@ public abstract class ReadOnlyChannel<T extends GenericMessage> {
     }
 
     public void publish(T message) {
-        System.out.println(message.getClass());
+        ObjectMapper objectMapper = ObjectMapperSingleton.getInstance();
         messages.put(message.getUuid(), message);
-        Gson gson = new Gson();
-        String json = gson.toJson(new MessageEnvelope<T>(getName(), message));
-        System.out.println(json);
-        for (WebSocketConnection client: clients) {
-            client.send(json);
+        Gson gson = GsonSingleton.getInstance();
+        try {
+            String json = objectMapper.writeValueAsString(new MessageEnvelope<T>(getName(), message));
+            System.out.println(json);
+            for (WebSocketConnection client: clients) {
+                client.send(json);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         }
     }
 
     public void sendAll(WebSocketConnection client) {
-        Gson gson = new Gson();
+        Gson gson = GsonSingleton.getInstance();
         for (UUID uuid : messages.keySet()) {
             T message = messages.get(uuid);
             if (message.expired()) {

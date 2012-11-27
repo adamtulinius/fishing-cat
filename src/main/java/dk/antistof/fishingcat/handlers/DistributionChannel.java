@@ -1,8 +1,9 @@
-package dk.antistof.bigscreen.handlers;
+package dk.antistof.fishingcat.handlers;
 
 import com.google.gson.Gson;
-import dk.antistof.bigscreen.messages.PubSubMessage;
-import dk.antistof.bigscreen.channels.ReadOnlyChannel;
+import dk.antistof.fishingcat.GsonSingleton;
+import dk.antistof.fishingcat.messages.PubSubMessage;
+import dk.antistof.fishingcat.channels.ReadOnlyChannel;
 import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebSocketConnection;
 
@@ -29,7 +30,7 @@ public class DistributionChannel extends BaseWebSocketHandler {
     }
 
     public void onMessage(WebSocketConnection client, String message) {
-        Gson gson = new Gson();
+        Gson gson = GsonSingleton.getInstance();
         try {
             PubSubMessage pubSubMessage = gson.fromJson(message, PubSubMessage.class);
             System.out.println(pubSubMessage);

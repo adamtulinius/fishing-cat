@@ -1,4 +1,4 @@
-package dk.antistof.bigscreen.messages;
+package dk.antistof.fishingcat.messages;
 
 public class PubSubMessage {
     private String channel;

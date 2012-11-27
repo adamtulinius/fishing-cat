@@ -40,7 +40,7 @@
         function addToTicker(envelope) {
             switch(envelope.type) {
                 case "quote":
-                    var content = '<b>Quote:</b> "' + envelope.message.content + '" - ' + envelope.message.author;
+                    var content = '<b>Quote:</b> "' + envelope.payload.content + '" - ' + envelope.payload.author;
                     $("#ticker > .content").fadeOut(250);
                     $("#ticker > .content").html(content);
                     $("#ticker > .content").fadeIn(500);
@@ -73,10 +73,10 @@
                         addToTicker(json);
                         break;
                     case "time":
-                        handleTime(json.message);
+                        handleTime(json.payload);
                         break;
                     case "x":
-                        showMessage(json.message);
+                        showMessage(json.payload);
                         break;
                     default:
                         fallback(msg);

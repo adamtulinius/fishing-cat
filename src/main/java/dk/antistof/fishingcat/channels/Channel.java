@@ -1,6 +1,6 @@
-package dk.antistof.bigscreen.channels;
+package dk.antistof.fishingcat.channels;
 
-import dk.antistof.bigscreen.messages.GenericMessage;
+import dk.antistof.fishingcat.messages.GenericMessage;
 import org.webbitserver.HttpControl;
 import org.webbitserver.HttpHandler;
 import org.webbitserver.HttpRequest;
