@@ -22,11 +22,9 @@ public class TimeChannel extends ReadOnlyChannel<Time> implements Runnable {
     }
 
     public void run() {
-        //noinspection InfiniteLoopStatement
         while (true) {
             try {
                 Time time = new Time(new Date().getTime());
-                System.out.println(time.getContent());
                 publish(time);
                 Thread.sleep(interval);
             } catch (InterruptedException e) {

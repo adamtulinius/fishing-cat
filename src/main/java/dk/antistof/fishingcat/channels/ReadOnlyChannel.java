@@ -2,8 +2,6 @@ package dk.antistof.fishingcat.channels;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import dk.antistof.fishingcat.GsonSingleton;
 import dk.antistof.fishingcat.ObjectMapperSingleton;
 import dk.antistof.fishingcat.messages.GenericMessage;
 import dk.antistof.fishingcat.messages.MessageEnvelope;
@@ -35,9 +33,9 @@ public abstract class ReadOnlyChannel<T extends GenericMessage> {
     }
 
     public void publish(T message) {
+        System.out.println(clients);
         ObjectMapper objectMapper = ObjectMapperSingleton.getInstance();
         messages.put(message.getUuid(), message);
-        Gson gson = GsonSingleton.getInstance();
         try {
             String json = objectMapper.writeValueAsString(new MessageEnvelope<T>(getName(), message));
             System.out.println(json);
@@ -50,15 +48,19 @@ public abstract class ReadOnlyChannel<T extends GenericMessage> {
     }
 
     public void sendAll(WebSocketConnection client) {
-        Gson gson = GsonSingleton.getInstance();
+        ObjectMapper objectMapper = ObjectMapperSingleton.getInstance();
         for (UUID uuid : messages.keySet()) {
             T message = messages.get(uuid);
             if (message.expired()) {
                 messages.remove(uuid);
             } else {
-                String json = gson.toJson(message);
-                client.send(json);
-                System.out.println(json);
+                try {
+                    String json = objectMapper.writeValueAsString(message);
+                    client.send(json);
+                    //System.out.println(json);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                }
             }
         }
     }

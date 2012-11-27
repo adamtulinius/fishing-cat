@@ -12,11 +12,11 @@ import java.util.concurrent.ExecutionException;
 
 public class Server {
     public static void main(String... args) throws ExecutionException, InterruptedException {
-        TimeChannel timeChannel = new TimeChannel(5000);
-        new Thread(timeChannel).start();
-
         WebServer server = WebServers.createWebServer(8080);
         DistributionChannel distributionChannel = new DistributionChannel();
+
+        TimeChannel timeChannel = new TimeChannel(5000);
+        new Thread(timeChannel).start();
 
         QuoteChannel quoteChannel = new QuoteChannel();
         new Thread(quoteChannel).start();

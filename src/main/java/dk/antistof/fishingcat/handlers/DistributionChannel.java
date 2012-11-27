@@ -1,7 +1,7 @@
 package dk.antistof.fishingcat.handlers;
 
-import com.google.gson.Gson;
-import dk.antistof.fishingcat.GsonSingleton;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.antistof.fishingcat.ObjectMapperSingleton;
 import dk.antistof.fishingcat.messages.PubSubMessage;
 import dk.antistof.fishingcat.channels.ReadOnlyChannel;
 import org.webbitserver.BaseWebSocketHandler;
@@ -30,9 +30,9 @@ public class DistributionChannel extends BaseWebSocketHandler {
     }
 
     public void onMessage(WebSocketConnection client, String message) {
-        Gson gson = GsonSingleton.getInstance();
+        ObjectMapper objectMapper = ObjectMapperSingleton.getInstance();
         try {
-            PubSubMessage pubSubMessage = gson.fromJson(message, PubSubMessage.class);
+            PubSubMessage pubSubMessage = objectMapper.readValue(message, PubSubMessage.class);
             System.out.println(pubSubMessage);
             if (channels.containsKey(pubSubMessage.getChannel())) {
                 if (pubSubMessage.getSubscribe()) {
@@ -43,6 +43,7 @@ public class DistributionChannel extends BaseWebSocketHandler {
             }
             client.send("OK");
         } catch (Exception e) {
+            e.printStackTrace();
             client.send("Failed");
         }
     }

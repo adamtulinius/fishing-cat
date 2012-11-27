@@ -5,7 +5,7 @@ public class PubSubMessage {
     private Boolean subscribe;
 
     public PubSubMessage() {
-        // left blank for gson reasons.
+
     }
 
     public PubSubMessage(String channel, Boolean subscribe) {
