@@ -8,7 +8,6 @@ import dk.antistof.fishingcat.jackson.MessageEnvelopeSerializer;
 public class MessageEnvelope<T> {
     private String channel;
     private GenericMessage<T> payload;
-    private String type;
 
     public MessageEnvelope() {
 
@@ -17,7 +16,6 @@ public class MessageEnvelope<T> {
     public MessageEnvelope(String channel, GenericMessage<T> payload) {
         this.channel = channel;
         this.payload = payload;
-        this.type = payload.getType();
     }
 
     public String getChannel() {
@@ -26,5 +24,9 @@ public class MessageEnvelope<T> {
 
     public GenericMessage<T> getPayload() {
         return payload;
+    }
+
+    public String getType() {
+        return payload.getType();
     }
 }

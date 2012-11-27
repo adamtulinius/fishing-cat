@@ -1,9 +1,9 @@
 package dk.antistof.fishingcat.channels;
 
-import dk.antistof.fishingcat.messages.Quote;
+import dk.antistof.fishingcat.messages.QuoteMessage;
 import org.webbitserver.HttpRequest;
 
-public class QuoteChannel extends Channel<Quote> implements Runnable {
+public class QuoteChannel extends Channel<QuoteMessage> implements Runnable {
     public QuoteChannel() {
 
     }
@@ -14,18 +14,17 @@ public class QuoteChannel extends Channel<Quote> implements Runnable {
     }
 
     @Override
-    public Quote transformRequest(HttpRequest httpRequest) {
-        Quote quote = new Quote(httpRequest.queryParam("quote"));
-        quote.setAuthor(httpRequest.queryParam("author"));
-        return quote;
+    public QuoteMessage transformRequest(HttpRequest httpRequest) {
+        QuoteMessage quoteMessage = new QuoteMessage(httpRequest.queryParam("quoteMessage"));
+        quoteMessage.setAuthor(httpRequest.queryParam("author"));
+        return quoteMessage;
     }
 
-    @Override
     public void run() {
         while (true) {
-            Quote quote = new Quote("Næste gang tester jeg mit kode inden jeg pusher det.");
-            quote.setAuthor("abr");
-            publish(quote);
+            QuoteMessage quoteMessage = new QuoteMessage("Næste gang tester jeg mit kode inden jeg pusher det.");
+            quoteMessage.setAuthor("abr");
+            publish(quoteMessage);
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) {

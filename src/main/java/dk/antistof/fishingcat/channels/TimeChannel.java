@@ -1,10 +1,10 @@
 package dk.antistof.fishingcat.channels;
 
-import dk.antistof.fishingcat.messages.Time;
+import dk.antistof.fishingcat.messages.TimeMessage;
 
 import java.util.Date;
 
-public class TimeChannel extends ReadOnlyChannel<Time> implements Runnable {
+public class TimeChannel extends ReadOnlyChannel<TimeMessage> implements Runnable {
     private long interval = 1000;
 
     public TimeChannel() {
@@ -24,8 +24,8 @@ public class TimeChannel extends ReadOnlyChannel<Time> implements Runnable {
     public void run() {
         while (true) {
             try {
-                Time time = new Time(new Date().getTime());
-                publish(time);
+                TimeMessage timeMessage = new TimeMessage(new Date().getTime());
+                publish(timeMessage);
                 Thread.sleep(interval);
             } catch (InterruptedException e) {
             }

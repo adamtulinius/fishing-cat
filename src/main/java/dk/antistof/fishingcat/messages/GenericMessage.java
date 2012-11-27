@@ -1,6 +1,8 @@
 package dk.antistof.fishingcat.messages;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Date;
 import java.util.UUID;
@@ -25,14 +27,17 @@ public abstract class GenericMessage<T> {
         this.publishedAt = new Date();
     }
 
+    @JsonProperty
     public UUID getUuid() {
         return uuid;
     }
 
+    @JsonProperty
     public T getContent() {
         return content;
     }
 
+    @JsonProperty
     public Date getExpiresAt() {
         return expiresAt;
     }
@@ -41,6 +46,7 @@ public abstract class GenericMessage<T> {
         this.expiresAt = expiresAt;
     }
 
+    @JsonProperty
     public Date getPublishedAt() {
         return publishedAt;
     }
@@ -53,6 +59,5 @@ public abstract class GenericMessage<T> {
         return expiresAt != null && new Date().compareTo(expiresAt) > 0;
     }
 
-    @JsonIgnore
     public abstract String getType();
 }

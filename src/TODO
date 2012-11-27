@@ -1,0 +1,5 @@
+Transport -> Channel -> Transport
+
+client mode:
+- managed: updates on data
+- unmanaged: all data sent instantly

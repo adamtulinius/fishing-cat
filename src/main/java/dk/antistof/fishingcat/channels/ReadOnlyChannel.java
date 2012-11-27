@@ -2,7 +2,7 @@ package dk.antistof.fishingcat.channels;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dk.antistof.fishingcat.ObjectMapperSingleton;
+import dk.antistof.fishingcat.jackson.ObjectMapperSingleton;
 import dk.antistof.fishingcat.messages.GenericMessage;
 import dk.antistof.fishingcat.messages.MessageEnvelope;
 import org.webbitserver.WebSocketConnection;
@@ -33,7 +33,6 @@ public abstract class ReadOnlyChannel<T extends GenericMessage> {
     }
 
     public void publish(T message) {
-        System.out.println(clients);
         ObjectMapper objectMapper = ObjectMapperSingleton.getInstance();
         messages.put(message.getUuid(), message);
         try {
