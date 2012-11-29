@@ -1,9 +1,9 @@
 package dk.antistof.fishingcat.handlers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.antistof.fishingcat.channels.Channel;
 import dk.antistof.fishingcat.jackson.ObjectMapperSingleton;
 import dk.antistof.fishingcat.messages.SubscriptionMessage;
-import dk.antistof.fishingcat.channels.ReadOnlyChannel;
 import org.webbitserver.BaseWebSocketHandler;
 import org.webbitserver.WebSocketConnection;
 
@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Map;
 
 public class FishingCatWebSocketHandler extends BaseWebSocketHandler {
-    private Map<String, ReadOnlyChannel> channels;
+    private Map<String, Channel> channels;
     private List<WebSocketConnection> connections;
 
     public FishingCatWebSocketHandler() {
-        channels = new HashMap<String, ReadOnlyChannel>();
+        channels = new HashMap<String, Channel>();
         connections = new ArrayList<WebSocketConnection>();
     }
 
-    public void addChannel(ReadOnlyChannel channel) {
+    public void addChannel(Channel channel) {
         channels.put(channel.getName(), channel);
     }
 

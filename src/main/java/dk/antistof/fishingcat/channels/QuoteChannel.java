@@ -3,7 +3,7 @@ package dk.antistof.fishingcat.channels;
 import dk.antistof.fishingcat.messages.QuoteMessage;
 import org.webbitserver.HttpRequest;
 
-public class QuoteChannel extends Channel<QuoteMessage> implements Runnable {
+public class QuoteChannel extends InputChannel<QuoteMessage> implements Runnable {
     public QuoteChannel() {
 
     }

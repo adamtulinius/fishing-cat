@@ -4,7 +4,7 @@ import dk.antistof.fishingcat.messages.TimeMessage;
 
 import java.util.Date;
 
-public class TimeChannel extends ReadOnlyChannel<TimeMessage> implements Runnable {
+public class TimeChannel extends Channel<TimeMessage> implements Runnable {
     private long interval = 1000;
 
     public TimeChannel() {
