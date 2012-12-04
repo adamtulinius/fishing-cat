@@ -2,6 +2,8 @@ package dk.antistof.fishingcat.channels;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dk.antistof.fishingcat.sinks.Sink;
+import dk.antistof.fishingcat.sources.BasicSource;
 import dk.antistof.fishingcat.transports.Transport;
 import dk.antistof.fishingcat.jackson.ObjectMapperSingleton;
 import dk.antistof.fishingcat.messages.GenericMessage;
@@ -10,23 +12,20 @@ import org.webbitserver.WebSocketConnection;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public abstract class Channel<T extends GenericMessage> {
-    private List<Transport<T, ?>> transports;
+public abstract class Channel<T extends GenericMessage> extends BasicSource<T> {
+    private List<Sink<T>> sinks;
     private List<WebSocketConnection> clients;
     private Map<UUID, T> messages;
 
     public Channel() {
-        transports = new ArrayList<Transport<T, ?>>();
+        sinks = new LinkedList<Sink<T>>();
         clients = new ArrayList<WebSocketConnection>();
         messages = new HashMap<UUID, T>();
-    }
-
-    public void addTransport(Transport<T, ?> transport) {
-        transports.add(transport);
     }
 
     public void subscribe(WebSocketConnection client) {
