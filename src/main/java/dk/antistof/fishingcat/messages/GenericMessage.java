@@ -1,8 +1,6 @@
 package dk.antistof.fishingcat.messages;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Date;
 import java.util.UUID;

@@ -25,7 +25,8 @@ public class TimeChannel extends Channel<TimeMessage> implements Runnable {
         while (true) {
             try {
                 TimeMessage timeMessage = new TimeMessage(new Date().getTime());
-                publish(timeMessage);
+                emit(timeMessage);
+                publish(timeMessage); // todo: remove
                 Thread.sleep(interval);
             } catch (InterruptedException e) {
             }

@@ -16,6 +16,10 @@ public class BasicSource<T> implements Source<T> {
         sinks.add(sink);
     }
 
+    public List<Sink<T>> getSinks() {
+        return sinks;
+    }
+
     public void emit(T t) {
         for (Sink<T> sink : sinks) {
             sink.absorb(t);
